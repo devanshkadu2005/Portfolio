@@ -68,4 +68,4 @@ This project is available for personal and commercial use.
 
 ## Contact
 
-For any questions or feedback, please reach out to Devansh at devansh.kadu@example.com 
+For any questions or feedback, please reach out to Devansh at devanshkadu@gmail.com 
