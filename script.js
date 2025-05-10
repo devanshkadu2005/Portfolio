@@ -235,36 +235,57 @@ document.addEventListener('DOMContentLoaded', function() {
     animateSkills();
     window.addEventListener('scroll', animateSkills);
 
-    // Form submission animation
+    // Form submission
     const form = document.querySelector('.contact-form');
     if (form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const submitBtn = this.querySelector('.submit-btn');
             const submitText = submitBtn.querySelector('span');
             const submitIcon = submitBtn.querySelector('.submit-icon');
-            
-            // Change button state to indicate sending
+
+            // Change button state
             submitBtn.disabled = true;
             submitText.textContent = 'Sending...';
             submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            
-            // Simulate form sending (in a real application, you would handle actual form submission here)
-            setTimeout(() => {
-                submitBtn.disabled = false;
-                submitText.textContent = 'Message Sent!';
-                submitIcon.innerHTML = '<i class="fas fa-check"></i>';
-                
-                // Reset form
-                form.reset();
-                
-                // Reset button after 3 seconds
+
+            // Actual form submission
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    submitText.textContent = 'Message Sent!';
+                    submitIcon.innerHTML = '<i class="fas fa-check"></i>';
+                    form.reset();
+
+                    setTimeout(() => {
+                        submitText.textContent = 'Send Message';
+                        submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                        submitBtn.disabled = false;
+                    }, 3000);
+                } else {
+                    throw new Error('Failed to send message');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                submitText.textContent = 'Error!';
+                submitIcon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+
                 setTimeout(() => {
                     submitText.textContent = 'Send Message';
                     submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                    submitBtn.disabled = false;
                 }, 3000);
-            }, 1500);
+            });
         });
     }
 
@@ -302,3 +323,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 }); 
+
+// Add reCAPTCHA callback
+function enableSubmit() {
+    document.querySelector('.submit-btn').disabled = false;
+  }
+  
+  // Modify form submit handler
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const recaptchaResponse = grecaptcha.getResponse();
+      if (!recaptchaResponse) {
+        alert("Please verify you're not a robot!");
+        return;
+      }
+  
+      // Add to existing formData
+      const formData = new FormData(form);
+      formData.append('g-recaptcha-response', recaptchaResponse);
+  
+      // Rest of your existing submission code
+      // ... (keep the fetch and status handling) ...
+    });
+  }
