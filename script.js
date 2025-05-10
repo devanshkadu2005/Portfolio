@@ -323,28 +323,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 }); 
-
-// Add reCAPTCHA callback
-function enableSubmit() {
-    document.querySelector('.submit-btn').disabled = false;
-  }
-  
-  // Modify form submit handler
-  if (form) {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const recaptchaResponse = grecaptcha.getResponse();
-      if (!recaptchaResponse) {
-        alert("Please verify you're not a robot!");
-        return;
-      }
-  
-      // Add to existing formData
-      const formData = new FormData(form);
-      formData.append('g-recaptcha-response', recaptchaResponse);
-  
-      // Rest of your existing submission code
-      // ... (keep the fetch and status handling) ...
-    });
-  }
