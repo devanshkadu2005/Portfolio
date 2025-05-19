@@ -235,57 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
     animateSkills();
     window.addEventListener('scroll', animateSkills);
 
-    // Form submission
-      document.addEventListener("DOMContentLoaded", function () {
-        const form = document.getElementById("contact-form");
-
-        form.addEventListener("submit", function (e) {
-          e.preventDefault(); // Prevent page reload
-
-          const submitBtn = form.querySelector(".submit-btn");
-          const submitText = submitBtn.querySelector("span");
-          const submitIcon = submitBtn.querySelector(".submit-icon");
-
-          // Show sending animation
-          submitBtn.disabled = true;
-          submitText.textContent = "Sending...";
-          submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
-          const formData = new FormData(form);
-          const data = new URLSearchParams(formData);
-
-          fetch("https://script.google.com/macros/s/AKfycbz9YqwnK-8X0QayxRjxWfRiLqMcYLzZgOYy_mtgEs5mwUEVrXiM7dxRQMNYmhvSck-O/exec", {
-            method: "POST",
-            body: data
-          })
-            .then((res) => res.text())
-            .then((text) => {
-              if (text.trim() === "Success") {
-                submitText.textContent = "Sent!";
-                submitIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
-                form.reset();
-
-                setTimeout(() => {
-                  submitBtn.disabled = false;
-                  submitText.textContent = "Send Message";
-                  submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-                }, 3000);
-
-                alert("Message sent successfully!");
-              } else {
-                throw new Error(text);
-              }
-            })
-            .catch((error) => {
-              alert("Error: " + error.message);
-              submitText.textContent = "Send Message";
-              submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-              submitBtn.disabled = false;
-            });
-        });
-      });
-
-
 
     // Hero section subtle parallax effect
     const heroSection = document.querySelector('.hero');
