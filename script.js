@@ -273,9 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-}); 
-
-document.addEventListener("DOMContentLoaded", function () {
+    // Form submission handling
     const form = document.getElementById("contact-form");
     const toast = document.getElementById("toast");
   
@@ -311,5 +309,8 @@ document.addEventListener("DOMContentLoaded", function () {
           showToast("An error occurred!", "error");
         });
     });
-  });
+}); 
+
+
+
   
