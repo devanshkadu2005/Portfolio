@@ -236,18 +236,27 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', animateSkills);
 
     //Form Submission
-    document.addEventListener("DOMContentLoaded", function () {
+    function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        toast.className = `toast-message show toast-${type}`;
+        toast.textContent = message;
+      
+        setTimeout(() => {
+          toast.className = "toast-message"; // hide
+        }, 3000);
+      }
+      
+      document.addEventListener("DOMContentLoaded", () => {
         const form = document.getElementById("contact-form");
       
         if (form) {
           form.addEventListener("submit", function (e) {
-            e.preventDefault();
+            e.preventDefault(); // ✅ Prevent reload
       
-            const submitBtn = this.querySelector(".submit-btn");
+            const submitBtn = form.querySelector(".submit-btn");
             const submitText = submitBtn.querySelector("span");
             const submitIcon = submitBtn.querySelector(".submit-icon");
       
-            // UI feedback: sending...
             submitBtn.disabled = true;
             submitText.textContent = "Sending...";
             submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
@@ -256,25 +265,26 @@ document.addEventListener('DOMContentLoaded', function() {
               method: "POST",
               body: new FormData(form),
             })
-              .then((response) => {
-                if (response.ok) {
-                  showToast("Message sent successfully!", "success");
+              .then((res) => {
+                if (res.ok) {
+                  showToast("✔️ Message sent!", "success");
                   form.reset();
                 } else {
-                  showToast("Failed to send message!", "error");
+                  showToast("❗ Failed to send message", "error");
                 }
               })
               .catch(() => {
-                showToast("Error sending message!", "error");
+                showToast("❗ Network error", "error");
               })
               .finally(() => {
+                submitBtn.disabled = false;
                 submitText.textContent = "Send Message";
                 submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-                submitBtn.disabled = false;
               });
           });
         }
       });
+      
       
       
 
