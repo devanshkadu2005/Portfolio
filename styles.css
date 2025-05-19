@@ -765,6 +765,7 @@ footer {
 
 
 .toast {
+    /* base styles */
     position: fixed;
     bottom: 30px;
     right: 30px;
@@ -773,17 +774,20 @@ footer {
     padding: 14px 24px;
     border-radius: 8px;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, all 0.4s ease;
     z-index: 9999;
-    transition: all 0.4s ease;
   }
-  .toast.success {
-    background-color: #4CAF50;
-  }
-  .toast.error {
-    background-color: #f44336;
-  }
+  
   .toast.show {
     opacity: 1;
   }
+  
+  .toast.success {
+    background-color: #4CAF50;
+  }
+  
+  .toast.error {
+    background-color: #f44336;
+  }
+  
   

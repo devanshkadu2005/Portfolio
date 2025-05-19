@@ -279,36 +279,39 @@ document.addEventListener('DOMContentLoaded', function() {
   
     function showToast(message, type = "success") {
       toast.textContent = message;
-      toast.className = `toast show ${type}`;
+      toast.classList.add("show");
+      toast.classList.remove("success", "error"); // remove both classes first
+      toast.classList.add(type); // add current type
+  
       setTimeout(() => {
-        toast.className = "toast";
+        toast.classList.remove("show");
       }, 3000);
     }
   
-    if (!form) return;
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
   
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+        const formData = new FormData(form);
   
-      const formData = new FormData(form);
-  
-      fetch("https://script.google.com/macros/s/AKfycbyJRPH_s6zWAVhcuwz-LjGR7WMc56VoDup7Q8kBzL7BqOZ9009bh-humVviWIy4Hm4/exec", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.text())
-        .then((text) => {
-          if (text.trim() === "Success") {
-            showToast("Message sent successfully!", "success");
-            form.reset();
-          } else {
-            showToast("Failed to send message.", "error");
-          }
+        fetch("https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec", {
+          method: "POST",
+          body: formData,
         })
-        .catch(() => {
-          showToast("An error occurred!", "error");
-        });
-    });
+          .then((response) => response.text())
+          .then((text) => {
+            if (text.trim() === "Success") {
+              showToast("Message sent successfully!", "success");
+              form.reset();
+            } else {
+              showToast("Failed to send message.", "error");
+            }
+          })
+          .catch(() => {
+            showToast("An error occurred!", "error");
+          });
+      });
+    }
 }); 
 
 
