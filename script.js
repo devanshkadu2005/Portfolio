@@ -236,37 +236,46 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', animateSkills);
 
     //Form Submission
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
-        e.preventDefault();
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("contact-form");
       
-        const submitBtn = this.querySelector('.submit-btn');
-        const submitText = submitBtn.querySelector('span');
-        const submitIcon = submitBtn.querySelector('.submit-icon');
+        if (form) {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
       
-        submitBtn.disabled = true;
-        submitText.textContent = 'Sending...';
-        submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            const submitBtn = this.querySelector(".submit-btn");
+            const submitText = submitBtn.querySelector("span");
+            const submitIcon = submitBtn.querySelector(".submit-icon");
       
-        const formData = new FormData(this);
+            // UI feedback: sending...
+            submitBtn.disabled = true;
+            submitText.textContent = "Sending...";
+            submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
       
-        fetch('https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec', {
-          method: 'POST',
-          body: formData,
-        })
-        .then(response => response.text())
-        .then(result => {
-          submitText.textContent = 'Sent Successfully!';
-          submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-          submitBtn.disabled = false;
-          this.reset();
-        })
-        .catch(error => {
-          alert('Failed to send message: ' + error.message);
-          submitText.textContent = 'Error in Sending:(';
-          submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-          submitBtn.disabled = false;
-        });
+            fetch("https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec", {
+              method: "POST",
+              body: new FormData(form),
+            })
+              .then((response) => {
+                if (response.ok) {
+                  showToast("Message sent successfully!", "success");
+                  form.reset();
+                } else {
+                  showToast("Failed to send message!", "error");
+                }
+              })
+              .catch(() => {
+                showToast("Error sending message!", "error");
+              })
+              .finally(() => {
+                submitText.textContent = "Send Message";
+                submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                submitBtn.disabled = false;
+              });
+          });
+        }
       });
+      
       
 
     // Hero section subtle parallax effect
