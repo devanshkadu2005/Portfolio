@@ -166,7 +166,7 @@
             <div class="container">
                 <h2 class="section-title" data-aos="fade-up">Get In Touch</h2>
                 <div class="contact-content">
-                    <form id="contact-form" class="contact-form">
+                    <form id="contact-form" class="contact-form" action="https://script.google.com/macros/s/AKfycbyJRPH_s6zWAVhcuwz-LjGR7WMc56VoDup7Q8kBzL7BqOZ9009bh-humVviWIy4Hm4/exec" method="POST" target="hidden_iframe" onsubmit="showToast('Sending message...', 'success');">
                         <div class="form-group">
                           <input type="text" id="name" name="name" required>
                           <label for="name">Name</label>
@@ -184,10 +184,11 @@
                           <div class="submit-icon"><i class="fas fa-paper-plane"></i></div>
                         </button>
                       </form>
-                      
-                      <!-- Toast container -->
-                      <div id="toast" class="toast"></div>
-                      
+                    <!-- Hidden iframe -->
+                        <iframe name="hidden_iframe" style="display:none;" onload="onFormSubmit()"></iframe>
+                    <!-- Toast container -->
+                        <div id="toast" class="toast"></div>
+
                     <div class="social-links" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
                         <a href="https://github.com/" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
                         <a href="https://linkedin.com/" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>

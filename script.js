@@ -273,44 +273,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    // Form submission handling
+    // Form Reseting
     const form = document.getElementById("contact-form");
     const toast = document.getElementById("toast");
   
+    window.onFormSubmit = function () {
+      // Called when iframe finishes loading after form submission
+      showToast("Message sent successfully!", "success");
+      form.reset();
+    };
+  
     function showToast(message, type = "success") {
       toast.textContent = message;
-      toast.classList.add("show");
-      toast.classList.remove("success", "error"); // remove both classes first
-      toast.classList.add(type); // add current type
-  
+      toast.className = `toast show ${type}`;
       setTimeout(() => {
-        toast.classList.remove("show");
+        toast.className = "toast";
       }, 3000);
-    }
-  
-    if (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-  
-        const formData = new FormData(form);
-  
-        fetch("https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => response.text())
-          .then((text) => {
-            if (text.trim() === "Success") {
-              showToast("Message sent successfully!", "success");
-              form.reset();
-            } else {
-              showToast("Failed to send message.", "error");
-            }
-          })
-          .catch(() => {
-            showToast("An error occurred!", "error");
-          });
-      });
     }
 }); 
 
