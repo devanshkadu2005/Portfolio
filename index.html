@@ -205,12 +205,26 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
     <!-- EmailJS SDK -->
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script>
-      (function () {
-        emailjs.init("d6KEVug6m2f_ZaV1Y"); // Replace with your key
-      })();
-    </script>
-
+    <script type="module">
+        import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+    
+        emailjs.init("d6KEVug6m2f_ZaV1Y");
+    
+        const form = document.getElementById("contact-form");
+    
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+        
+          emailjs.sendForm("service_io6u4lg", "template_63leaou", this)
+            .then(() => {
+              alert("✅ Message sent successfully!");
+              form.reset();
+            })
+            .catch((error) => {
+              alert("❌ Failed to send message.");
+              console.error("EmailJS Error:", error);
+            });
+        });
+      </script>
 </body>
 </html> 

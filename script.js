@@ -258,24 +258,6 @@ document.addEventListener('DOMContentLoaded', function() {
     //     }
     //   });
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const form = document.getElementById("contact-form");
-      
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
-      
-          emailjs.sendForm("service_io6u4lg", "template_63leaou", this)
-            .then(() => {
-              alert("Message sent successfully!");
-              form.reset();
-            })
-            .catch((error) => {
-              alert("Failed to send message. Please try again.");
-              console.error("EmailJS Error:", error);
-            });
-        });
-      });
-
     // Hero section subtle parallax effect
     const heroSection = document.querySelector('.hero');
     window.addEventListener('scroll', () => {
