@@ -249,43 +249,6 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = true;
             submitText.textContent = 'Sending...';
             submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
-            // Actual form submission
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    submitText.textContent = 'Message Sent!';
-                    submitIcon.innerHTML = '<i class="fas fa-check"></i>';
-                    form.reset();
-
-                    setTimeout(() => {
-                        submitText.textContent = 'Send Message';
-                        submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-                        submitBtn.disabled = false;
-                    }, 3000);
-                } else {
-                    throw new Error('Failed to send message');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                submitText.textContent = 'Error!';
-                submitIcon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
-
-                setTimeout(() => {
-                    submitText.textContent = 'Send Message';
-                    submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-                    submitBtn.disabled = false;
-                }, 3000);
-            });
         });
     }
 
