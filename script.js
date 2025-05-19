@@ -242,36 +242,31 @@ document.addEventListener('DOMContentLoaded', function() {
       
         function showToast(message, type = "success") {
             toast.textContent = message;
-            toast.className = `toast show ${type}`; // ✅ Fix here
+            toast.className = `toast show ${type}`;
             setTimeout(() => {
-              toast.className = "toast"; // ✅ Reset after 3 seconds
+              toast.className = "toast";
             }, 3000);
-          }          
-      
-        if (form) {
+          }
+          
           form.addEventListener("submit", function (e) {
             e.preventDefault();
-      
+          
             const formData = new FormData(form);
-      
-            fetch("https://script.google.com/macros/s/AKfycbyJRPH_s6zWAVhcuwz-LjGR7WMc56VoDup7Q8kBzL7BqOZ9009bh-humVviWIy4Hm4/exec", {
+          
+            fetch("https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec", {
               method: "POST",
+              mode: "no-cors",
               body: formData,
             })
-              .then((response) => response.text())
-              .then((text) => {
-                if (text === "Success") {
-                  showToast("Message sent successfully!", "success");
-                  form.reset();
-                } else {
-                  showToast("Failed to send message.", "error");
-                }
+              .then(() => {
+                showToast("Message sent successfully!", "success");
+                form.reset();
               })
               .catch(() => {
                 showToast("An error occurred!", "error");
               });
           });
-        }
+          
       });
       
       
