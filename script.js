@@ -255,14 +255,14 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.text())
         .then(result => {
-          submitText.textContent = 'Sent!';
+          submitText.textContent = 'Sent Successfully!';
           submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
           submitBtn.disabled = false;
           this.reset();
         })
         .catch(error => {
           alert('Failed to send message: ' + error.message);
-          submitText.textContent = 'Error in Sent!!';
+          submitText.textContent = 'Error in Sending:(';
           submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
           submitBtn.disabled = false;
         });
