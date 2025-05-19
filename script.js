@@ -236,60 +236,57 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', animateSkills);
 
     // Form submission
-    document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector(".contact-form");
-    
-        if (form) {
-          form.addEventListener("submit", function (e) {
-            e.preventDefault(); // Stop default redirect
-    
-            const submitBtn = this.querySelector(".submit-btn");
-            const submitText = submitBtn.querySelector("span");
-            const submitIcon = submitBtn.querySelector(".submit-icon");
-    
-            // Change button state
-            submitBtn.disabled = true;
-            submitText.textContent = "Sending...";
-            submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-    
-            // Send form data to Google Apps Script
-            const formData = new FormData(form);
-            fetch(form.action, {
-              method: "POST",
-              body: formData,
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("contact-form");
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent page reload
+
+          const submitBtn = form.querySelector(".submit-btn");
+          const submitText = submitBtn.querySelector("span");
+          const submitIcon = submitBtn.querySelector(".submit-icon");
+
+          // Show sending animation
+          submitBtn.disabled = true;
+          submitText.textContent = "Sending...";
+          submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+          const formData = new FormData(form);
+          const data = new URLSearchParams(formData);
+
+          fetch("https://script.google.com/macros/s/AKfycbz9YqwnK-8X0QayxRjxWfRiLqMcYLzZgOYy_mtgEs5mwUEVrXiM7dxRQMNYmhvSck-O/exec", {
+            method: "POST",
+            body: data
+          })
+            .then((res) => res.text())
+            .then((text) => {
+              if (text.trim() === "Success") {
+                submitText.textContent = "Sent!";
+                submitIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                form.reset();
+
+                setTimeout(() => {
+                  submitBtn.disabled = false;
+                  submitText.textContent = "Send Message";
+                  submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                }, 3000);
+
+                alert("Message sent successfully!");
+              } else {
+                throw new Error(text);
+              }
             })
-              .then((response) => response.text())
-              .then((text) => {
-                if (text === "Success") {
-                  // Reset form & show success
-                  form.reset();
-                  submitText.textContent = "Sent!";
-                  submitIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
-    
-                  // Optional: show success toast
-                  alert("Message sent successfully!");
-    
-                  // Reset button after delay
-                  setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitText.textContent = "Send Message";
-                    submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-                  }, 3000);
-                } else {
-                  throw new Error("Unexpected response: " + text);
-                }
-              })
-              .catch((error) => {
-                alert("Failed to send message: " + error.message);
-                submitText.textContent = "Send Message";
-                submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-                submitBtn.disabled = false;
-              });
-          });
-        }
+            .catch((error) => {
+              alert("Error: " + error.message);
+              submitText.textContent = "Send Message";
+              submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
+              submitBtn.disabled = false;
+            });
+        });
       });
 
-      
+
+
     // Hero section subtle parallax effect
     const heroSection = document.querySelector('.hero');
     window.addEventListener('scroll', () => {
