@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
             const formData = new FormData(form);
           
-            fetch("https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec", {
+            fetch("https://script.google.com/macros/s/AKfycbyJRPH_s6zWAVhcuwz-LjGR7WMc56VoDup7Q8kBzL7BqOZ9009bh-humVviWIy4Hm4/exec", {
               method: "POST",
               mode: "no-cors",
               body: formData,
