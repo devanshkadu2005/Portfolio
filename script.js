@@ -236,38 +236,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', animateSkills);
 
     //Form Submission
-    document.addEventListener("DOMContentLoaded", function () {
-        const form = document.getElementById("contact-form");
-        const toast = document.getElementById("toast");
-      
-        function showToast(message, type = "success") {
-            toast.textContent = message;
-            toast.className = `toast show ${type}`;
-            setTimeout(() => {
-              toast.className = "toast";
-            }, 3000);
-          }
-          
-          form.addEventListener("submit", function (e) {
-            e.preventDefault();
-          
-            const formData = new FormData(form);
-          
-            fetch("https://script.google.com/macros/s/AKfycbyJRPH_s6zWAVhcuwz-LjGR7WMc56VoDup7Q8kBzL7BqOZ9009bh-humVviWIy4Hm4/exec", {
-              method: "POST",
-              mode: "no-cors",
-              body: formData,
-            })
-              .then(() => {
-                showToast("Message sent successfully!", "success");
-                form.reset();
-              })
-              .catch(() => {
-                showToast("An error occurred!", "error");
-              });
-          });
-          
-      });
       
       
       
@@ -306,3 +274,42 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 }); 
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("contact-form");
+    const toast = document.getElementById("toast");
+  
+    function showToast(message, type = "success") {
+      toast.textContent = message;
+      toast.className = `toast show ${type}`;
+      setTimeout(() => {
+        toast.className = "toast";
+      }, 3000);
+    }
+  
+    if (!form) return;
+  
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+  
+      const formData = new FormData(form);
+  
+      fetch("https://script.google.com/macros/s/AKfycbyJRPH_s6zWAVhcuwz-LjGR7WMc56VoDup7Q8kBzL7BqOZ9009bh-humVviWIy4Hm4/exec", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.text())
+        .then((text) => {
+          if (text.trim() === "Success") {
+            showToast("Message sent successfully!", "success");
+            form.reset();
+          } else {
+            showToast("Failed to send message.", "error");
+          }
+        })
+        .catch(() => {
+          showToast("An error occurred!", "error");
+        });
+    });
+  });
+  
