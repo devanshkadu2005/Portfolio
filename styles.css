@@ -38,9 +38,6 @@
     box-sizing: border-box;
 }
 
-html {
-    /* Removed scroll-behavior: smooth; as we're using JS for better smooth scrolling */
-}
 
 body {
     font-family: 'Inter', sans-serif;
