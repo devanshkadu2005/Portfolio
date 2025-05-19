@@ -236,39 +236,44 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', animateSkills);
 
     //Form Submission
-    const form = document.getElementById("contact-form");
-  const toast = document.getElementById("toast");
-
-  function showToast(message, type) {
-    toast.textContent = (type === "success" ? "✅ " : "❌ ") + message;
-    toast.className = "toast show " + type;
-    setTimeout(() => {
-      toast.className = "toast";
-    }, 3000);
-  }
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(form);
-
-    fetch("https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec", {
-      method: "POST",
-      body: formData
-    })
-    .then(response => response.text())
-    .then(responseText => {
-      if (responseText.includes("Success")) {
-        showToast("Message sent successfully!", "success");
-        form.reset();
-      } else {
-        showToast("Something went wrong!", "error");
-      }
-    })
-    .catch(error => {
-      showToast("Failed to send message!", "error");
-    });
-  });
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("contact-form");
+        const toast = document.getElementById("toast");
+      
+        function showToast(message, type = "success") {
+          toast.textContent = message;
+          toast.className = `toast-message show toast-${type}`;
+          setTimeout(() => {
+            toast.className = "toast-message";
+          }, 3000);
+        }
+      
+        if (form) {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+      
+            const formData = new FormData(form);
+      
+            fetch("https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec", {
+              method: "POST",
+              body: formData,
+            })
+              .then((response) => response.text())
+              .then((text) => {
+                if (text === "Success") {
+                  showToast("Message sent successfully!", "success");
+                  form.reset();
+                } else {
+                  showToast("Failed to send message.", "error");
+                }
+              })
+              .catch(() => {
+                showToast("An error occurred!", "error");
+              });
+          });
+        }
+      });
+      
       
       
 
