@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
     
             // Send the form using EmailJS
-            emailjs.sendForm("service_io6u4lg", "template_4cpibab", this)
+            emailjs.sendForm("service_io6u4lg", "template_4cpibab", form)
               .then(() => {
                 alert("Message sent successfully!");
                 submitText.textContent = "Send Message";
