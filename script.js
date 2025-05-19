@@ -236,55 +236,39 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', animateSkills);
 
     //Form Submission
-    function showToast(message, type = "success") {
-        const toast = document.getElementById("toast");
-        toast.className = `toast-message show toast-${type}`;
-        toast.textContent = message;
-      
-        setTimeout(() => {
-          toast.className = "toast-message"; // hide
-        }, 3000);
+    const form = document.getElementById("contact-form");
+  const toast = document.getElementById("toast");
+
+  function showToast(message, type) {
+    toast.textContent = (type === "success" ? "✅ " : "❌ ") + message;
+    toast.className = "toast show " + type;
+    setTimeout(() => {
+      toast.className = "toast";
+    }, 3000);
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    fetch("https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.text())
+    .then(responseText => {
+      if (responseText.includes("Success")) {
+        showToast("Message sent successfully!", "success");
+        form.reset();
+      } else {
+        showToast("Something went wrong!", "error");
       }
-      
-      document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("contact-form");
-      
-        if (form) {
-          form.addEventListener("submit", function (e) {
-            e.preventDefault(); // ✅ Prevent reload
-      
-            const submitBtn = form.querySelector(".submit-btn");
-            const submitText = submitBtn.querySelector("span");
-            const submitIcon = submitBtn.querySelector(".submit-icon");
-      
-            submitBtn.disabled = true;
-            submitText.textContent = "Sending...";
-            submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-      
-            fetch("https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec", {
-              method: "POST",
-              body: new FormData(form),
-            })
-              .then((res) => {
-                if (res.ok) {
-                  showToast("✔️ Message sent!", "success");
-                  form.reset();
-                } else {
-                  showToast("❗ Failed to send message", "error");
-                }
-              })
-              .catch(() => {
-                showToast("❗ Network error", "error");
-              })
-              .finally(() => {
-                submitBtn.disabled = false;
-                submitText.textContent = "Send Message";
-                submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-              });
-          });
-        }
-      });
-      
+    })
+    .catch(error => {
+      showToast("Failed to send message!", "error");
+    });
+  });
       
       
 
