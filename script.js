@@ -235,6 +235,40 @@ document.addEventListener('DOMContentLoaded', function() {
     animateSkills();
     window.addEventListener('scroll', animateSkills);
 
+    //Form Submission
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+      
+        const submitBtn = this.querySelector('.submit-btn');
+        const submitText = submitBtn.querySelector('span');
+        const submitIcon = submitBtn.querySelector('.submit-icon');
+      
+        submitBtn.disabled = true;
+        submitText.textContent = 'Sending...';
+        submitIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+      
+        const formData = new FormData(this);
+      
+        fetch('https://script.google.com/macros/s/AKfycbw2OGvXZPQk1XTQTDKPy_UYo1nAR_XFQsYz59ZbiKxtG3vg1ZhLy8fB6tbAzCrRaCM/exec', {
+          method: 'POST',
+          body: formData,
+        })
+        .then(response => response.text())
+        .then(result => {
+          alert('Message sent successfully!');
+          submitText.textContent = 'Send Message';
+          submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
+          submitBtn.disabled = false;
+          this.reset();
+        })
+        .catch(error => {
+          alert('Failed to send message: ' + error.message);
+          submitText.textContent = 'Send Message';
+          submitIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
+          submitBtn.disabled = false;
+        });
+      });
+      
 
     // Hero section subtle parallax effect
     const heroSection = document.querySelector('.hero');
