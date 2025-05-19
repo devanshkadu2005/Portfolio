@@ -241,12 +241,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const toast = document.getElementById("toast");
       
         function showToast(message, type = "success") {
-          toast.textContent = message;
-          toast.className = `toast-message show toast-${type}`;
-          setTimeout(() => {
-            toast.className = "toast-message";
-          }, 3000);
-        }
+            toast.textContent = message;
+            toast.className = `toast show ${type}`; // ✅ Fix here
+            setTimeout(() => {
+              toast.className = "toast"; // ✅ Reset after 3 seconds
+            }, 3000);
+          }          
       
         if (form) {
           form.addEventListener("submit", function (e) {
