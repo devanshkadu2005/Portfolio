@@ -1,6 +1,24 @@
 import React from 'react';
+import BounceCards from './BounceCards';
 
 const Projects = () => {
+  // BounceCards configuration
+  const projectImages = [
+    "https://picsum.photos/400/400?grayscale",
+    "https://picsum.photos/500/500?grayscale",
+    "https://picsum.photos/600/600?grayscale",
+    "https://picsum.photos/700/700?grayscale",
+    "https://picsum.photos/300/300?grayscale"
+  ];
+
+  const transformStyles = [
+    "rotate(5deg) translate(-150px)",
+    "rotate(0deg) translate(-70px)",
+    "rotate(-5deg)",
+    "rotate(5deg) translate(70px)",
+    "rotate(-5deg) translate(150px)"
+  ];
+
   const projects = [
     {
       title: 'WidViz',
@@ -34,6 +52,22 @@ const Projects = () => {
     <section id="projects" className="projects">
       <div className="container">
         <h2 className="section-title" data-aos="fade-up">Projects</h2>
+        
+        {/* BounceCards Animation */}
+        <div data-aos="fade-up" data-aos-duration="1000" style={{ marginBottom: '4rem' }}>
+          <BounceCards
+            className="custom-bounceCards"
+            images={projectImages}
+            containerWidth={500}
+            containerHeight={250}
+            animationDelay={0.5}
+            animationStagger={0.08}
+            easeType="elastic.out(1, 0.5)"
+            transformStyles={transformStyles}
+            enableHover={false}
+          />
+        </div>
+
         <div className="projects-grid">
           {projects.map((project, index) => (
             <div 
