@@ -6,7 +6,7 @@ const Projects = () => {
       title: "AGNIYA",
       role: "GPU-Accelerated Encrypted Database",
       date: "Aug 2025 - May 2026",
-      github: "https://github.com/adityakale838/agniya.git",
+      github: "https://github.com/devanshkadu2005/agniya.git",
       description: (
         <>
           <p>Architected a Paillier-2048 homomorphic encryption database achieving <strong>6.7M cached ops/sec</strong>.</p>
@@ -19,7 +19,7 @@ const Projects = () => {
       title: "AWS Cedar - IAM Policy Engine",
       role: "Rust CLI & Game-Theoretic Testing Tool",
       date: "Dec 2025 - Mar 2026",
-      github: "https://github.com/adityakale838/cedar.git",
+      github: "https://github.com/devanshkadu2005/cedar.git",
       description: (
         <>
           <p>Automated combination testing across 2ⁿ policy permutations using game-theoretic algorithms (Banzhaf metrics) to isolate decision-critical access controls.</p>
